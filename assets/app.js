@@ -775,7 +775,7 @@ function renderContact() {
             <div class="field full"><label for="message">Message</label><textarea id="message" name="message" required placeholder="Tell us what you want to improve, secure, build, migrate, or support."></textarea></div>
           </div>
           <div class="hero-actions"><button class="button" type="submit">${icon("send", 18)} Submit Inquiry</button></div>
-          <div class="success-message" id="successMessage">Thanks for reaching out. Our team will get back to you shortly.</div>
+          <div class="success-message" id="successMessage">Thank you for contacting. We will contact you soon.</div>
         </form>
         <aside class="contact-panel reveal">
           <h2>Direct Contact</h2>
