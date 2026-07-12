@@ -2,7 +2,7 @@ const company = {
   name: "Acero Solutions Pvt Ltd",
   shortName: "Acero Solutions",
   tagline: "[Add tagline]",
-  email: "Acerosolutions@gmail.com",
+  email: "info@acerosolutions.com",
   address: "Office No 17/05, Wave Silver, Sector 18, Noida, Uttar Pradesh, India"
 };
 
