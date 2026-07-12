@@ -2,7 +2,7 @@ const company = {
   name: "Acero Solutions Pvt Ltd",
   shortName: "Acero Solutions",
   tagline: "[Add tagline]",
-  email: "info@acerosolutions.com",
+  email: "info@acerosolutions.in",
   address: "Office No 17/05, Wave Silver, Sector 18, Noida, Uttar Pradesh, India"
 };
 
@@ -196,7 +196,7 @@ function header() {
       <div class="nav-shell">
         <a class="brand" href="${homeHref("index.html")}" aria-label="Acero Solutions Pvt Ltd home">
           ${signetMark()}
-          <span class="brand-mark">Acero Solutions<span class="brand-suffix">Pvt Ltd</span></span>
+          <span class="brand-mark">Acero Solutions</span>
         </a>
         <nav class="nav-links" aria-label="Primary navigation">
           <a class="nav-link" href="${homeHref("index.html")}">Home</a>
