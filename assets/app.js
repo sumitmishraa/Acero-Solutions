@@ -180,11 +180,22 @@ function renderShell(content) {
   wireInteractions();
 }
 
+function signetMark() {
+  return `
+    <svg class="brand-icon" viewBox="0 0 64 64" role="img" aria-hidden="true">
+      <circle cx="32" cy="32" r="28" fill="var(--accent)" stroke="var(--gold)" stroke-width="1.6"/>
+      <path d="M23,21 L41,21 L41,32" fill="none" stroke="#f7f6f2" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter"/>
+      <path d="M41,43 L23,43 L23,32" fill="none" stroke="#f7f6f2" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter"/>
+    </svg>
+  `;
+}
+
 function header() {
   return `
     <header class="site-header">
       <div class="nav-shell">
         <a class="brand" href="${homeHref("index.html")}" aria-label="Acero Solutions Pvt Ltd home">
+          ${signetMark()}
           <span class="brand-mark">Acero Solutions<span class="brand-suffix">Pvt Ltd</span></span>
         </a>
         <nav class="nav-links" aria-label="Primary navigation">
@@ -224,6 +235,7 @@ function footer() {
       <div class="footer-inner">
         <div class="footer-col">
           <div class="footer-brand-lockup">
+            ${signetMark()}
             <span class="footer-brand">Acero Solutions Pvt Ltd</span>
           </div>
           <p class="footer-tagline">${company.tagline}</p>

@@ -10,6 +10,7 @@
   --accent-active: #1f1c4e;
   --accent-tint: #edecf8;
   --accent-border: rgba(51, 47, 130, 0.35);
+  --gold: #af8a4e;
 
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -211,6 +212,12 @@ ul {
   align-items: center;
   gap: var(--space-2);
   min-width: 0;
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
 }
 
@@ -1413,6 +1420,11 @@ ul {
   align-items: center;
   gap: var(--space-2);
   margin-bottom: var(--space-3);
+}
+
+.footer-brand-lockup .brand-icon {
+  width: 32px;
+  height: 32px;
 }
 
 .footer-brand {
