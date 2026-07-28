@@ -180,13 +180,25 @@ function renderShell(content) {
   wireInteractions();
 }
 
-function signetMark() {
+function logoIcon(tone = "light") {
+  const stroke = tone === "dark" ? "var(--bg)" : "var(--ink)";
   return `
-    <svg class="brand-icon" viewBox="0 0 64 64" role="img" aria-hidden="true">
-      <circle cx="32" cy="32" r="28" fill="var(--accent)" stroke="var(--gold)" stroke-width="1.6"/>
-      <path d="M23,21 L41,21 L41,32" fill="none" stroke="#f7f6f2" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter"/>
-      <path d="M41,43 L23,43 L23,32" fill="none" stroke="#f7f6f2" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter"/>
+    <svg class="brand-icon" viewBox="0 0 64 60" role="img" aria-hidden="true">
+      <path d="M32,6 L8,54" fill="none" stroke="${stroke}" stroke-width="9" stroke-linecap="round"/>
+      <path d="M32,6 L56,54" fill="none" stroke="${stroke}" stroke-width="9" stroke-linecap="round"/>
+      <path d="M18,36 H46" fill="none" stroke="var(--brand-blue)" stroke-width="6.5" stroke-linecap="round"/>
+      <path d="M39,14 H49 A9,9 0 0 1 58,23 V33" fill="none" stroke="var(--brand-blue)" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="58" cy="38" r="5.5" fill="var(--brand-blue-light)"/>
     </svg>
+  `;
+}
+
+function wordmark() {
+  return `
+    <span class="brand-wordmark">
+      <span class="brand-primary">Acero</span>
+      <span class="brand-secondary">Solutions</span>
+    </span>
   `;
 }
 
@@ -195,8 +207,8 @@ function header() {
     <header class="site-header">
       <div class="nav-shell">
         <a class="brand" href="${homeHref("index.html")}" aria-label="Acero Solutions Pvt Ltd home">
-          ${signetMark()}
-          <span class="brand-mark">Acero Solutions</span>
+          ${logoIcon("light")}
+          ${wordmark()}
         </a>
         <nav class="nav-links" aria-label="Primary navigation">
           <a class="nav-link" href="${homeHref("index.html")}">Home</a>
@@ -235,8 +247,8 @@ function footer() {
       <div class="footer-inner">
         <div class="footer-col">
           <div class="footer-brand-lockup">
-            ${signetMark()}
-            <span class="footer-brand">Acero Solutions Pvt Ltd</span>
+            ${logoIcon("dark")}
+            ${wordmark()}
           </div>
           <p class="footer-tagline">${company.tagline}</p>
           <p>Data, cloud, DevOps, security, and IT consulting for growing businesses — delivered by one accountable team out of Noida, India.</p>
