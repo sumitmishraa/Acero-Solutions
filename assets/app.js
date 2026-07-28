@@ -333,15 +333,66 @@ function infoPanel({ quote = "", facts = [], tags = [] }) {
   `;
 }
 
+function networkMotif() {
+  return `
+    <svg viewBox="0 0 900 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g fill="none" stroke="var(--ink)" stroke-width="1.2">
+        <line x1="680" y1="60" x2="760" y2="140"/>
+        <line x1="760" y1="140" x2="820" y2="90"/>
+        <line x1="680" y1="60" x2="600" y2="120"/>
+        <line x1="600" y1="120" x2="640" y2="190"/>
+        <line x1="640" y1="190" x2="720" y2="230"/>
+        <line x1="720" y1="230" x2="760" y2="320"/>
+        <line x1="760" y1="320" x2="820" y2="380"/>
+        <line x1="560" y1="260" x2="640" y2="190"/>
+        <line x1="560" y1="260" x2="500" y2="340"/>
+        <line x1="500" y1="340" x2="440" y2="280"/>
+        <line x1="440" y1="280" x2="380" y2="380"/>
+        <line x1="380" y1="380" x2="300" y2="320"/>
+        <line x1="300" y1="320" x2="250" y2="400"/>
+        <line x1="600" y1="120" x2="560" y2="260"/>
+        <line x1="720" y1="230" x2="560" y2="260"/>
+      </g>
+      <g>
+        <circle cx="680" cy="60" r="4" fill="var(--brand-blue)"/>
+        <circle cx="760" cy="140" r="3" fill="var(--brand-blue)"/>
+        <circle cx="820" cy="90" r="5" fill="var(--gold)"/>
+        <circle cx="640" cy="190" r="3" fill="var(--brand-blue)"/>
+        <circle cx="720" cy="230" r="4" fill="var(--brand-blue)"/>
+        <circle cx="600" cy="120" r="3" fill="var(--brand-blue)"/>
+        <circle cx="560" cy="260" r="5" fill="var(--accent)"/>
+        <circle cx="500" cy="340" r="3" fill="var(--brand-blue)"/>
+        <circle cx="440" cy="280" r="4" fill="var(--brand-blue)"/>
+        <circle cx="380" cy="380" r="3" fill="var(--brand-blue)"/>
+        <circle cx="300" cy="320" r="4" fill="var(--gold)"/>
+        <circle cx="250" cy="400" r="3" fill="var(--brand-blue)"/>
+        <circle cx="760" cy="320" r="4" fill="var(--brand-blue)"/>
+        <circle cx="820" cy="380" r="3" fill="var(--accent)"/>
+      </g>
+    </svg>
+  `;
+}
+
+function backdrop(variant = "a", tone = "light") {
+  return `
+    <div class="hero-backdrop variant-${variant}${tone === "dark" ? " on-dark" : ""}" aria-hidden="true">
+      <span class="blob blob-a"></span>
+      <span class="blob blob-b"></span>
+      ${networkMotif()}
+    </div>
+  `;
+}
+
 function hero(opts) {
   const {
-    eyebrow, title, lead, points = [], visual = "", short = false,
+    eyebrow, title, lead, points = [], visual = "", short = false, variant = "a",
     ctaPrimary = { label: "Explore Services", href: homeHref("services.html"), icon: "layers-3" },
     ctaSecondary = { label: "Book a Consultation", href: homeHref("contact.html"), icon: "message-square" }
   } = opts;
   const hasVisual = Boolean(visual);
   return `
     <section class="hero ${short ? "short" : ""}">
+      ${backdrop(variant)}
       <div class="section-inner hero-inner ${hasVisual ? "" : "single"}">
         <div class="hero-copy">
           <div class="eyebrow">${eyebrow}</div>
@@ -387,6 +438,7 @@ function stepper(items, cardClass = "capability-item") {
 function renderHome() {
   renderShell(`
     ${hero({
+      variant: "a",
       eyebrow: "Full-stack IT partner",
       title: "One Accountable Partner For Your Entire Technology Stack",
       lead: "Acero Solutions designs, builds, and runs the data, cloud, DevOps, security, and support systems that keep a growing business moving — without hand-offs between five different vendors.",
@@ -426,6 +478,7 @@ function renderHome() {
       </div>
     </section>
     <section class="section dark">
+      ${backdrop("a", "dark")}
       <div class="section-inner">
         <div class="section-heading reveal">
           <h2>Built for leaders who need technology explained in plain terms.</h2>
@@ -490,6 +543,7 @@ function renderHome() {
 function renderServices() {
   renderShell(`
     ${hero({
+      variant: "b",
       eyebrow: "Services",
       title: "IT Solutions Built Around Business Outcomes",
       lead: "Start with one capability or combine several into a phased roadmap. Every engagement includes discovery, delivery, and follow-through — not just a hand-off.",
@@ -529,8 +583,10 @@ function renderServices() {
 function renderServiceDetail() {
   const detail = serviceDetails[serviceKey] || serviceDetails["data-analytics"];
   const item = serviceList.find(s => s.key === serviceKey);
+  const heroVariant = ["a", "b", "c"][Math.max(serviceList.findIndex(s => s.key === serviceKey), 0) % 3];
   renderShell(`
     ${hero({
+      variant: heroVariant,
       eyebrow: detail.eyebrow,
       title: detail.title,
       lead: detail.intro,
@@ -595,6 +651,7 @@ function renderServiceDetail() {
 function renderAbout() {
   renderShell(`
     ${hero({
+      variant: "c",
       eyebrow: "About Acero Solutions",
       title: "A Technology Partner Built Around Follow-Through.",
       lead: "Acero Solutions Pvt Ltd is an IT solutions company based in Noida, India, focused on practical, secure, and well-documented technology delivery.",
@@ -657,6 +714,7 @@ function renderAbout() {
 function renderWhyUs() {
   renderShell(`
     ${hero({
+      variant: "b",
       eyebrow: "Why Acero Solutions",
       title: "Why Businesses Choose To Work With Us.",
       lead: "We connect strategy, delivery, operations, and security so technology decisions turn into measurable outcomes.",
@@ -741,6 +799,7 @@ function selectField({ id, label, options, placeholder = null, required = true }
 function renderContact() {
   renderShell(`
     ${hero({
+      variant: "a",
       eyebrow: "Contact",
       title: "Let's Talk About Your Technology Roadmap.",
       lead: "Tell us about the project, the support gap, or the system that needs fixing. We'll review it and get back to you.",
