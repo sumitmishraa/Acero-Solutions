@@ -6,6 +6,19 @@ const company = {
   address: "Office No 17/05, Wave Silver, Sector 18, Noida, Uttar Pradesh, India"
 };
 
+function unsplash(id, w = 1600) {
+  return `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+}
+
+const heroImages = {
+  home: unsplash("1497215728101-856f4ea42174"),
+  about: unsplash("1573497620053-ea5300f94f21"),
+  services: unsplash("1560179707-f14e90ef3623"),
+  whyUs: unsplash("1521791136064-7986c2920216"),
+  contact: unsplash("1517245386807-bb43f82c33c4"),
+  cta: unsplash("1451187580459-43490279c0fa")
+};
+
 const trustItems = [
   ["badge-check", "Registered Indian Entity"],
   ["cloud", "Cloud & Security Focused"],
@@ -59,6 +72,7 @@ const serviceList = [
 const serviceDetails = {
   "data-analytics": {
     eyebrow: "Data analytics",
+    heroImage: unsplash("1560472354-b33ff0c44a43"),
     title: "Make decisions from evidence, not gut feel.",
     intro: "Acero Solutions helps you collect, clean, and connect the data already sitting inside your business, then puts it in front of the people who need it — without a six-month build.",
     proof: ["Executive dashboards", "Pipeline automation", "Forecast models", "KPI design"],
@@ -75,6 +89,7 @@ const serviceDetails = {
   },
   "it-services": {
     eyebrow: "IT services",
+    heroImage: unsplash("1573164713988-8665fc963095"),
     title: "Infrastructure that stops being a distraction.",
     intro: "We manage the networks, devices, and day-to-day support work that keep a business running, so your team can focus on the business instead of the printer.",
     proof: ["Managed support", "Network operations", "Endpoint management", "Preventive maintenance"],
@@ -91,6 +106,7 @@ const serviceDetails = {
   },
   devops: {
     eyebrow: "DevOps",
+    heroImage: unsplash("1531482615713-2afd69097998"),
     title: "Ship faster without shipping fragile.",
     intro: "We build the automation, environments, and monitoring that let engineering teams release often and sleep at night.",
     proof: ["CI/CD pipelines", "Infrastructure as code", "Container platforms", "Release monitoring"],
@@ -107,6 +123,7 @@ const serviceDetails = {
   },
   "cloud-solutions": {
     eyebrow: "Cloud solutions",
+    heroImage: unsplash("1544197150-b99a580bb7a8"),
     title: "Cloud infrastructure sized to the workload, not the sales pitch.",
     intro: "We plan, migrate, and manage cloud environments that match what the business actually needs — not a generic reference architecture.",
     proof: ["Migration planning", "Architecture design", "Hybrid cloud", "Cost optimisation"],
@@ -123,6 +140,7 @@ const serviceDetails = {
   },
   "cyber-security": {
     eyebrow: "Cyber security",
+    heroImage: unsplash("1585079542156-2755d9c8a094"),
     title: "Security that's built in, not bolted on afterward.",
     intro: "We help you find the gaps before someone else does, then put layered, practical protection around your users, data, and systems.",
     proof: ["Risk assessment", "Endpoint protection", "Access control", "Incident response planning"],
@@ -139,6 +157,7 @@ const serviceDetails = {
   },
   "it-consulting": {
     eyebrow: "IT consulting",
+    heroImage: unsplash("1553877522-43269d4ea984"),
     title: "A roadmap you can actually fund and finish.",
     intro: "We work with leadership to turn a backlog of technology problems into a sequenced plan — with priorities, budgets, and a realistic delivery path.",
     proof: ["IT strategy", "Roadmapping", "System audits", "Vendor evaluation"],
@@ -303,14 +322,6 @@ function architecturePanel(items) {
   `;
 }
 
-function heroPhoto(url, alt) {
-  return `
-    <div class="hero-photo">
-      <img src="${url}" alt="${alt}" loading="lazy">
-    </div>
-  `;
-}
-
 function infoPanel({ quote = "", facts = [], tags = [] }) {
   return `
     <div class="info-panel reveal">
@@ -323,13 +334,14 @@ function infoPanel({ quote = "", facts = [], tags = [] }) {
 
 function hero(opts) {
   const {
-    eyebrow, title, lead, points = [], visual = "", short = false,
+    eyebrow, title, lead, points = [], visual = "", short = false, image = "",
     ctaPrimary = { label: "Explore Services", href: homeHref("services.html"), icon: "layers-3" },
     ctaSecondary = { label: "Book a Consultation", href: homeHref("contact.html"), icon: "message-square" }
   } = opts;
   const hasVisual = Boolean(visual);
+  const hasImage = Boolean(image);
   return `
-    <section class="hero ${short ? "short" : ""}">
+    <section class="hero ${short ? "short" : ""} ${hasImage ? "photo" : ""}"${hasImage ? ` style="background-image:url('${image}')"` : ""}>
       <div class="section-inner hero-inner ${hasVisual ? "" : "single"}">
         <div class="hero-copy">
           <div class="eyebrow">${eyebrow}</div>
@@ -342,6 +354,25 @@ function hero(opts) {
           </div>
         </div>
         ${hasVisual ? `<div class="reveal">${visual}</div>` : ""}
+      </div>
+    </section>
+  `;
+}
+
+function ctaSection({ eyebrow, title, text, actionLabel, actionHref, actionIcon = "send" }) {
+  return `
+    <section class="cta-section">
+      <div class="section-inner">
+        <div class="cta-band photo reveal" style="background-image:url('${heroImages.cta}')">
+          <div>
+            <div class="eyebrow">${eyebrow}</div>
+            <h2>${title}</h2>
+            <p>${text}</p>
+          </div>
+          <div class="cta-actions">
+            <a class="button" href="${actionHref}">${icon(actionIcon, 18)} ${actionLabel}</a>
+          </div>
+        </div>
       </div>
     </section>
   `;
@@ -383,7 +414,8 @@ function renderHome() {
         "Built for companies that need dependable systems, clear reporting, and security that holds up under pressure.",
         "Engagements run on defined scopes, checkpoints, and documentation — not open-ended retainers."
       ],
-      visual: serviceIndexPanel()
+      visual: serviceIndexPanel(),
+      image: heroImages.home
     })}
     ${trustMarquee()}
     <section class="section">
@@ -458,20 +490,13 @@ function renderHome() {
         })}
       </div>
     </section>
-    <section class="cta-section">
-      <div class="section-inner">
-        <div class="cta-band reveal">
-          <div>
-            <div class="eyebrow">Start the conversation</div>
-            <h2>Tell us what's not working.</h2>
-            <p>Start with a focused conversation about the systems, data, or security gaps slowing you down. We'll help map the right starting point before recommending any tool.</p>
-          </div>
-          <div class="cta-actions">
-            <a class="button" href="${homeHref("contact.html")}">${icon("send", 18)} Contact Acero Solutions</a>
-          </div>
-        </div>
-      </div>
-    </section>
+    ${ctaSection({
+      eyebrow: "Start the conversation",
+      title: "Tell us what's not working.",
+      text: "Start with a focused conversation about the systems, data, or security gaps slowing you down. We'll help map the right starting point before recommending any tool.",
+      actionLabel: "Contact Acero Solutions",
+      actionHref: homeHref("contact.html")
+    })}
   `);
 }
 
@@ -487,7 +512,8 @@ function renderServices() {
         "Built for teams that want execution, not another slide deck of possibilities."
       ],
       visual: serviceIndexPanel(),
-      short: true
+      short: true,
+      image: heroImages.services
     })}
     <section class="section">
       <div class="section-inner">
@@ -525,6 +551,7 @@ function renderServiceDetail() {
       points: [detail.problems[0], detail.value, "Every engagement includes discovery, delivery, documentation, and a defined review point."],
       visual: architecturePanel(detail.proof),
       short: true,
+      image: detail.heroImage,
       ctaPrimary: { label: "Discuss This Service", href: homeHref("contact.html"), icon: "message-circle" },
       ctaSecondary: { label: "All Services", href: homeHref("services.html"), icon: "layout-grid" }
     })}
@@ -563,20 +590,14 @@ function renderServiceDetail() {
         ${infoPanel({ quote: "Where this typically helps", tags: detail.useCases })}
       </div>
     </section>
-    <section class="cta-section">
-      <div class="section-inner">
-        <div class="cta-band reveal">
-          <div>
-            <div class="eyebrow">Focused consultation</div>
-            <h2>Talk to us about ${detail.eyebrow.toLowerCase()}.</h2>
-            <p>Share where things stand today and we'll help map the most practical next step.</p>
-          </div>
-          <div class="cta-actions">
-            <a class="button" href="${homeHref("contact.html")}">${icon("message-circle", 18)} Discuss This Service</a>
-          </div>
-        </div>
-      </div>
-    </section>
+    ${ctaSection({
+      eyebrow: "Focused consultation",
+      title: `Talk to us about ${detail.eyebrow.toLowerCase()}.`,
+      text: "Share where things stand today and we'll help map the most practical next step.",
+      actionLabel: "Discuss This Service",
+      actionHref: homeHref("contact.html"),
+      actionIcon: "message-circle"
+    })}
   `);
 }
 
@@ -591,8 +612,11 @@ function renderAbout() {
         "Our work connects leadership priorities with hands-on engineering, cloud, data, and security execution.",
         "Acero Solutions is built to support both regional and distributed teams."
       ],
-      visual: heroPhoto("https://picsum.photos/id/180/1200/900", "Workspace with a laptop, notebook, and camera in progress"),
-      short: true
+      visual: infoPanel({
+        facts: [["Headquarters", "Noida, Uttar Pradesh"], ["Company type", "Private limited"], ["Focus areas", "Data · Cloud · DevOps · Security"]]
+      }),
+      short: true,
+      image: heroImages.about
     })}
     <section class="section">
       <div class="section-inner split">
@@ -630,15 +654,6 @@ function renderAbout() {
         </div>
       </div>
     </section>
-    <section class="section soft">
-      <div class="section-inner">
-        <div class="section-heading reveal"><h2>The people behind the delivery.</h2><p>Small, focused teams built around each engagement.</p></div>
-        <!-- TODO: replace the role cards below with real team photography and names once available -->
-        <div class="grid three">
-          ${["Technology Consultants", "Cloud Engineers", "Security Specialists", "Data Analysts", "DevOps Engineers", "Support Specialists"].map(role => `<div class="card team-card reveal"><div class="avatar">${icon("user-round", 24)}</div><h3>${role}</h3><p>Focused on discovery, implementation, documentation, and continuous improvement.</p></div>`).join("")}
-        </div>
-      </div>
-    </section>
   `);
 }
 
@@ -658,6 +673,7 @@ function renderWhyUs() {
         facts: [["Approach", "Assess, design, implement, optimize"], ["Engagement", "Fixed scope or ongoing partnership"], ["Coverage", "Data, cloud, DevOps, security, consulting"]]
       }),
       short: true,
+      image: heroImages.whyUs,
       ctaPrimary: { label: "Get a Consultation", href: homeHref("contact.html"), icon: "calendar-check" },
       ctaSecondary: { label: "See Our Services", href: homeHref("services.html"), icon: "layers-3" }
     })}
@@ -688,20 +704,14 @@ function renderWhyUs() {
         </div>
       </div>
     </section>
-    <section class="cta-section">
-      <div class="section-inner">
-        <div class="cta-band reveal">
-          <div>
-            <div class="eyebrow">Next step</div>
-            <h2>Move from uncertainty to a plan.</h2>
-            <p>Bring the problem as it is today. We'll help frame the options and the most practical starting point.</p>
-          </div>
-          <div class="cta-actions">
-            <a class="button" href="${homeHref("contact.html")}">${icon("calendar-check", 18)} Get a Consultation</a>
-          </div>
-        </div>
-      </div>
-    </section>
+    ${ctaSection({
+      eyebrow: "Next step",
+      title: "Move from uncertainty to a plan.",
+      text: "Bring the problem as it is today. We'll help frame the options and the most practical starting point.",
+      actionLabel: "Get a Consultation",
+      actionHref: homeHref("contact.html"),
+      actionIcon: "calendar-check"
+    })}
   `);
 }
 
@@ -742,6 +752,7 @@ function renderContact() {
         facts: [["Step 1", "Share your project or challenge"], ["Step 2", "We review your message"], ["Step 3", "We follow up with next steps"]]
       }),
       short: true,
+      image: heroImages.contact,
       ctaPrimary: { label: "Email Us", href: `mailto:${company.email}`, icon: "mail" },
       ctaSecondary: { label: "Fill The Form", href: "#contactForm", icon: "send" }
     })}
